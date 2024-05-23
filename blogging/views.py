@@ -1,18 +1,32 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from blogging.models import Post
 
 
 def list_view(request):
-    context = {'blogs': Post.objects.all()}
+    published = Post.objects.exclude(published_date__exact=None)
+    posts = published.order_by('-published_date')
+    context = {'posts': posts}
     return render(request, 'blogging/list.html', context)
 
 
-def detail_view(request, blog_id):
+def detail_view(request, post_id):
+    published = Post.objects.exclude(published_date__exact=None)
     try:
-        blog = Post.objects.get(pk=blog_id)
+        post = published.get(pk=post_id)
     except Post.DoesNotExist:
         raise Http404
 
-    context = {'blog': blog}
+    context = {'post': post}
     return render(request, 'blogging/detail.html', context)
+
+
+def stub_view(request, *args, **kwargs):
+    body = "Stub View\n\n"
+    if args:
+        body += "Args: \n"
+        body += "\n".join(["\t%s" % i for i in args])
+    if kwargs:
+        body += "Kwargs:\n"
+        body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
+    return HttpResponse(body, content_type="text/plain")
