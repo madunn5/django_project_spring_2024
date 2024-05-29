@@ -24,7 +24,7 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name',)
-    exclude = ('posts',)
+    exclude = ('post',)
 
 
 admin.site.register(Post, PostAdmin)
