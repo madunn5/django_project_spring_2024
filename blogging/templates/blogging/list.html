@@ -7,7 +7,10 @@
             <a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a>
         </h2>
         <p class="byline">
-            Blog by {{ post.author.username }} &mdash; {{ post.published_date }}
+         {% load tz %}
+         {% timezone "US/Pacific" %}
+         Post by {{ post.author.username }} &mdash; {{ post.published_date }} Pacific Time
+         {% endtimezone %}
         </p>
         <div class="blog-body">
             {{ post.text}}
