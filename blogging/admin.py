@@ -5,7 +5,7 @@ from blogging.models import Post, Category
 
 class CategoryInline(admin.TabularInline):
     model = Category.post.through
-    extra = 1
+    extra = 1  # makes it so one additional blank line will show on the admin page automatically
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
 

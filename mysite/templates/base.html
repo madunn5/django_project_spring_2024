@@ -10,13 +10,13 @@
             <ul id="control-bar">
                 {% if user.is_authenticated %}
                 {% if user.is_staff %}
-                <li><a href="{% url 'admin:index' %}">admin</a></li>{% endif %}
-                <li>
-                <form id="frm_logout" method="post" action="{% url 'logout' %}">
-                 {% csrf_token %}
-                <a href="javascript:$('#frm_logout').submit();" >logout</a>
-                </form>
-                </li>
+                    <li><a href="{% url 'admin:index' %}">admin</a></li>{% endif %}
+                    <li>
+                        <form id="frm_logout" method="post" action="{% url 'logout' %}">
+                             {% csrf_token %}
+                            <a href="javascript:$('#frm_logout').submit();" >logout</a>
+                        </form>
+                    </li>
                 {% else %}
                  <li><a href="{% url 'login' %}">login</a></li>
                {% endif %}
