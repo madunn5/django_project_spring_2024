@@ -3,10 +3,12 @@
 <a class="backline" href="/">Home</a>
 <h1>{{ object.title }}</h1>
 <p class="byline">
-         {% load tz %}
-         {% timezone "US/Pacific" %}
-         Post by {{ object.author.username }} &mdash; {{ object.published_date }} Pacific Time
-         {% endtimezone %}
+            {% load tz %}
+            {% timezone "US/Pacific" %}
+            <span class="author">Post by {{ object.author.username }}</span><br>
+            <span class="published-date">Published on {{ object.published_date }} Pacific Time</span><br>
+            <span class="updated-date">Last Updated on {{ object.created_date }} Pacific Time</span>
+            {% endtimezone %}
 </p>
 <div class="blog-body">
     {{ object.text }}

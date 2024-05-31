@@ -6,23 +6,24 @@ from django.views.generic.detail import DetailView
 
 
 class PostListView(ListView):
-    model = Post.objects.exclude(published_date__exact=None)
-    queryset = Post.objects.order_by("-published_date")
+    model = Post
     context_object_name = "posts"
     template_name = 'blogging/list.html'
+
+    def get_queryset(self):
+        return Post.objects.exclude(published_date__exact=None).order_by("-published_date")
 
 
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blogging/detail.html'
-    queryset = Post.objects.order_by("-published_date")
 
     def get_queryset(self):
-        # Exclude posts with no published date and order by published_date
+        # Exclude posts with no published date and order by published date
         return Post.objects.exclude(published_date__exact=None).order_by("-published_date")
 
     def get_context_data(self, **kwargs):
-        # Add any additional context if needed
+        # This will allow for the extra detail should we need it, currently there is nothing being added here
         context = super().get_context_data(**kwargs)
         return context
 
