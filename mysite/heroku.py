@@ -1,3 +1,5 @@
+import os
+
 import dj_database_url
 
 from .settings import *
@@ -12,7 +14,7 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SECRET_KEY = os.environ.get("SECRET_KEY")
-ALLOWED_HOSTS = ["afternoon-atoll-93236-9f699e921dfe.herokuapp.com"]
+ALLOWED_HOSTS = ["*"]
 
 MIDDLEWARE = (
     "whitenoise.middleware.WhiteNoiseMiddleware",
