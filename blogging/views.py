@@ -8,19 +8,23 @@ from django.views.generic.detail import DetailView
 class PostListView(ListView):
     model = Post
     context_object_name = "posts"
-    template_name = 'blogging/list.html'
+    template_name = "blogging/list.html"
 
     def get_queryset(self):
-        return Post.objects.exclude(published_date__exact=None).order_by("-published_date")
+        return Post.objects.exclude(published_date__exact=None).order_by(
+            "-published_date"
+        )
 
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'blogging/detail.html'
+    template_name = "blogging/detail.html"
 
     def get_queryset(self):
         # Exclude posts with no published date and order by published date
-        return Post.objects.exclude(published_date__exact=None).order_by("-published_date")
+        return Post.objects.exclude(published_date__exact=None).order_by(
+            "-published_date"
+        )
 
     def get_context_data(self, **kwargs):
         # This will allow for the extra detail should we need it, currently there is nothing being added here
@@ -30,9 +34,9 @@ class PostDetailView(DetailView):
 
 def list_view(request):
     published = Post.objects.exclude(published_date__exact=None)
-    posts = published.order_by('-published_date')
-    context = {'posts': posts}
-    return render(request, 'blogging/list.html', context)
+    posts = published.order_by("-published_date")
+    context = {"posts": posts}
+    return render(request, "blogging/list.html", context)
 
 
 def detail_view(request, post_id):
@@ -42,8 +46,8 @@ def detail_view(request, post_id):
     except Post.DoesNotExist:
         raise Http404
 
-    context = {'post': post}
-    return render(request, 'blogging/detail.html', context)
+    context = {"post": post}
+    return render(request, "blogging/detail.html", context)
 
 
 def stub_view(request, *args, **kwargs):
