@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{ object.title }}</h1>
+<div class ="poll-author">
+    Published By: {{ object.author }}
+</div>
 <div class ="poll-body">
     {{ object.text }}
 </div>

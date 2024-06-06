@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.utils import timezone
+from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from .models import Post
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
 
 
 class PostListView(ListView):
@@ -30,6 +33,21 @@ class PostDetailView(DetailView):
         # This will allow for the extra detail should we need it, currently there is nothing being added here
         context = super().get_context_data(**kwargs)
         return context
+
+
+@login_required
+def add_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect("blog_detail", pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, "blogging/add_post.html", {"form": form})
 
 
 def list_view(request):
