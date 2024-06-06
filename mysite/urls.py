@@ -20,7 +20,7 @@ from django.urls import path
 from django.urls.conf import include
 
 from django.contrib.auth.views import LoginView, LogoutView
-
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,4 +29,6 @@ urlpatterns = [
     path("blogging/", include("blogging.urls")),
     path("login/", LoginView.as_view(template_name="login.html"), name="login"),
     path("logout/", LogoutView.as_view(next_page="/"), name="logout"),
+    path("accounts/", include("allauth.urls")),
+    path("", TemplateView.as_view(template_name="base.html")),
 ]
