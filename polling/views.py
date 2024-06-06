@@ -3,6 +3,10 @@ from django.http import Http404
 from .models import Poll
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
 
 
 class PollListView(ListView):
@@ -25,6 +29,20 @@ class PollDetailView(DetailView):
 
         context = {"object": poll}
         return render(request, "polling/detail.html", context)
+
+
+@login_required
+def add_poll(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect("poll_detail", pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, "blogging/add_post.html", {"form": form})
 
 
 def list_view(request):

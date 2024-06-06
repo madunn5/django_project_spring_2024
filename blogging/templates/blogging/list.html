@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1>My Cool Blog Posts</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Cool Blog Posts</h1>
+    <a href="{% url 'add_post' %}" class="btn btn-primary" {% if not user.is_authenticated %}disabled{% endif %}>Add Post</a>
+</div>
+
 {% for post in posts %}
     <div class="blog">
         <h2>
@@ -15,7 +20,7 @@
             {% endtimezone %}
         </p>
         <div class="blog-body">
-            {{ post.text}}
+            {{ post.text }}
         </div>
         <ul class="categories">
         {% for category in post.categories.all %}
@@ -23,8 +28,7 @@
                 {{ category }}{% if not forloop.last %},{% endif %}
             </li>
         {% endfor %}
-    </ul>
+        </ul>
     </div>
 {% endfor %}
 {% endblock %}
-
